@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吴少杰 · 程序策划 · 简历</title>
+<style>
+  :root {
+    --page-width: 210mm;
+    --page-height: 297mm;
+    --preview-scale: 1;
+    --content-scale: 1;
+    --ink: #1f2430;
+    --muted: #556070;
+    --accent: #1858f0;
+    --accent-soft: rgba(24, 88, 240, 0.1);
+    --line: #dde4ef;
+    --paper: #fcfcfb;
+    --sidebar-bg: linear-gradient(180deg, #f3f6fb 0%, #eef3fb 100%);
+    --panel: rgba(255, 255, 255, 0.92);
+    --shadow: 0 24px 50px rgba(18, 32, 61, 0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: 100vh;
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(24, 88, 240, 0.1), transparent 28%),
+      radial-gradient(circle at top right, rgba(22, 142, 220, 0.08), transparent 24%),
+      linear-gradient(180deg, #eef3fb 0%, #e8edf6 42%, #e4e9f2 100%);
+    padding: 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .app {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .export-button {
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1858f0 0%, #0d73f3 100%);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 12px 20px;
+    cursor: pointer;
+    box-shadow: 0 12px 24px rgba(24, 88, 240, 0.22);
+    transition: transform 0.16s ease, box-shadow 0.16s ease, opacity 0.16s ease;
+  }
+
+  .export-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px rgba(24, 88, 240, 0.28);
+  }
+
+  .export-button:disabled {
+    cursor: wait;
+    opacity: 0.82;
+  }
+
+  .preview-shell {
+    padding: 8px 0 28px;
+  }
+
+  .preview-stage {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: calc(var(--page-height) * var(--preview-scale));
+    transition: height 0.18s ease;
+  }
+
+  .preview-scale {
+    width: var(--page-width);
+    height: var(--page-height);
+    transform: scale(var(--preview-scale));
+    transform-origin: top center;
+  }
+
+  .resume-page {
+    position: relative;
+    width: var(--page-width);
+    height: var(--page-height);
+    overflow: hidden;
+    border-radius: 18px;
+    background: var(--paper);
+    box-shadow: var(--shadow);
+  }
+
+  .resume-canvas {
+    position: absolute;
+    inset: 0;
+    width: calc(100% / var(--content-scale));
+    transform: scale(var(--content-scale));
+    transform-origin: top left;
+  }
+
+  .resume-inner {
+    display: grid;
+    grid-template-columns: 71mm 1fr;
+    min-height: var(--page-height);
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 7mm;
+    padding: 12mm 10mm 11mm 12mm;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--line);
+  }
+
+  .identity {
+    display: grid;
+    gap: 3mm;
+  }
+
+  .identity-name {
+    font-size: 31px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .identity-role {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .identity-note {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .contact-list,
+  .side-list,
+  .metrics-list {
+    display: grid;
+    gap: 2.6mm;
+  }
+
+  .contact-item,
+  .side-item,
+  .metric-item {
+    display: grid;
+    grid-template-columns: 14px 1fr;
+    gap: 8px;
+    align-items: start;
+    font-size: 11.2px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  .metric-item {
+    grid-template-columns: 10px 1fr;
+  }
+
+  .contact-mark,
+  .metric-mark {
+    color: var(--accent);
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .side-section {
+    display: grid;
+    gap: 3mm;
+  }
+
+  .side-title {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    color: var(--accent);
+  }
+
+  .skill-group {
+    display: grid;
+    gap: 6px;
+  }
+
+  .skill-label {
+    font-size: 10.6px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .chip {
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 10.5px;
+    line-height: 1;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid rgba(24, 88, 240, 0.08);
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    gap: 5mm;
+    padding: 11mm 12mm 10mm 10mm;
+  }
+
+  .summary-panel,
+  .experience-panel,
+  .project-panel,
+  .notes-panel {
+    display: grid;
+    gap: 2.8mm;
+  }
+
+  .panel-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+    color: var(--ink);
+  }
+
+  .panel-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .summary-card,
+  .experience-card {
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: 0 10px 22px rgba(36, 54, 92, 0.06);
+  }
+
+  .summary-card {
+    padding: 4mm;
+    display: grid;
+    gap: 3mm;
+  }
+
+  .summary-text {
+    font-size: 12px;
+    line-height: 1.72;
+    color: var(--muted);
+  }
+
+  .impact-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .impact-item {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(24, 88, 240, 0.05);
+  }
+
+  .impact-value {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1.1;
+  }
+
+  .impact-label {
+    margin-top: 4px;
+    font-size: 10.4px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .experience-card {
+    padding: 4mm;
+  }
+
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 3mm;
+  }
+
+  .job-title {
+    display: grid;
+    gap: 2px;
+  }
+
+  .job-role {
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .job-company {
+    font-size: 11.2px;
+    color: var(--muted);
+  }
+
+  .job-date {
+    font-size: 10.8px;
+    font-weight: 700;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .work-list {
+    display: grid;
+    gap: 2.3mm;
+    list-style: none;
+  }
+
+  .work-list li {
+    position: relative;
+    padding-left: 12px;
+    font-size: 11.1px;
+    line-height: 1.56;
+    color: var(--muted);
+  }
+
+  .work-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3mm;
+  }
+
+  .feature-card {
+    display: grid;
+    gap: 1.4mm;
+    padding: 3.1mm;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(242, 246, 255, 0.92));
+  }
+
+  .feature-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .feature-name {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+
+  .feature-badge {
+    flex-shrink: 0;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 9.6px;
+    line-height: 1;
+    font-weight: 700;
+  }
+
+  .feature-desc {
+    font-size: 10.1px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .feature-link {
+    font-size: 10.1px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .notes-list {
+    display: grid;
+    gap: 2.4mm;
+    list-style: none;
+  }
+
+  .notes-list li {
+    position: relative;
+    padding-left: 12px;
+    font-size: 10.9px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .notes-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  @media (max-width: 960px) {
+    body {
+      padding: 16px;
+    }
+  }
+
+  @media print {
+    body {
+      padding: 0;
+      background: #fff;
+    }
+
+    .toolbar {
+      display: none;
+    }
+
+    .preview-shell {
+      padding: 0;
+    }
+
+    .preview-stage {
+      height: auto;
+    }
+
+    .preview-scale {
+      transform: none;
+    }
+
+    .resume-page {
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="toolbar">
+    <button class="export-button" id="exportPdfButton" type="button">导出 PDF</button>
+  </div>
+
+  <div class="preview-shell">
+    <div class="preview-stage" id="previewStage">
+      <div class="preview-scale" id="previewScale">
+        <article class="resume-page" id="resumePage" aria-label="吴少杰简历">
+          <div class="resume-canvas" id="resumeCanvas">
+            <div class="resume-inner" id="resumeInner">
+              <aside class="sidebar">
+                <section class="identity">
+                  <div class="identity-name">吴少杰</div>
+                  <div class="identity-role">程序策划 / Technical Game Designer</div>
+                  <div class="identity-note">2.5 年动作 RogueLike 程序策划经验，兼具玩法设计、原型实现与工具化提效能力。</div>
+                </section>
+
+                <section class="side-section">
+                  <div class="side-title">联系方式</div>
+                  <div class="contact-list">
+                    <div class="contact-item">
+                      <span class="contact-mark">✦</span>
+                      <span>2224656186@qq.com</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-mark">✦</span>
+                      <span>18650539969</span>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-mark">✦</span>
+                      <a href="https://github.com/XMeowchan" target="_blank" rel="noreferrer">github.com/XMeowchan</a>
+                    </div>
+                    <div class="contact-item">
+                      <span class="contact-mark">✦</span>
+                      <span>深圳市 · 2.5 年经验</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="side-section">
+                  <div class="side-title">专业技能</div>
+                  <div class="skill-group">
+                    <div class="skill-label">游戏引擎</div>
+                    <div class="chip-row">
+                      <span class="chip">Unity</span>
+                    </div>
+                  </div>
+                  <div class="skill-group">
+                    <div class="skill-label">编程语言</div>
+                    <div class="chip-row">
+                      <span class="chip">C#</span>
+                    </div>
+                  </div>
+                  <div class="skill-group">
+                    <div class="skill-label">AI 辅助开发</div>
+                    <div class="chip-row">
+                      <span class="chip">Codex</span>
+                      <span class="chip">Claude Code</span>
+                      <span class="chip">飞书 Skills</span>
+                    </div>
+                  </div>
+                  <div class="skill-group">
+                    <div class="skill-label">开发工具</div>
+                    <div class="chip-row">
+                      <span class="chip">Git</span>
+                      <span class="chip">Excel / VBA</span>
+                    </div>
+                  </div>
+                  <div class="skill-group">
+                    <div class="skill-label">策划工具</div>
+                    <div class="chip-row">
+                      <span class="chip">Figma</span>
+                      <span class="chip">XMind</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="side-section">
+                  <div class="side-title">教育背景</div>
+                  <div class="side-list">
+                    <div class="side-item">
+                      <span class="contact-mark">•</span>
+                      <span>哈尔滨工业大学<br>软件工程 · 本科 · 2020 - 2024</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="side-section">
+                  <div class="side-title">语言能力</div>
+                  <div class="side-list">
+                    <div class="side-item">
+                      <span class="contact-mark">•</span>
+                      <span>中文 · 母语</span>
+                    </div>
+                    <div class="side-item">
+                      <span class="contact-mark">•</span>
+                      <span>英语 · CET-6（625 分）</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="side-section">
+                  <div class="side-title">游戏资历</div>
+                  <div class="metrics-list">
+                    <div class="metric-item">
+                      <span class="metric-mark">•</span>
+                      <span>Steam 11 年用户年资</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="metric-mark">•</span>
+                      <span>库藏 174 款游戏</span>
+                    </div>
+                    <div class="metric-item">
+                      <span class="metric-mark">•</span>
+                      <span>深度体验 RogueLike、动作、独立游戏</span>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="side-section">
+                  <div class="side-title">兴趣爱好</div>
+                  <div class="chip-row">
+                    <span class="chip">独立游戏</span>
+                    <span class="chip">Game Jam</span>
+                    <span class="chip">Mod 制作</span>
+                    <span class="chip">桌游</span>
+                  </div>
+                </section>
+
+              </aside>
+
+              <main class="main">
+                <section class="summary-panel">
+                  <div class="panel-title">个人总结</div>
+                  <div class="summary-card">
+                    <div class="summary-text">
+                      哈尔滨工业大学软件工程出身，具备从玩法设计到代码实现的完整闭环能力。2.5 年程序策划经验，专注动作 RogueLike 品类，擅长将 AI 工具深度融入游戏开发流程，以技术手段加速设计验证、提升策划产出效率。
+                    </div>
+                    <div class="impact-strip">
+                      <div class="impact-item">
+                        <div class="impact-value">7+</div>
+                        <div class="impact-label">核心英雄独立交付</div>
+                      </div>
+                      <div class="impact-item">
+                        <div class="impact-value">30%</div>
+                        <div class="impact-label">开发周期缩短约 30%</div>
+                      </div>
+                      <div class="impact-item">
+                        <div class="impact-value">2.5年</div>
+                        <div class="impact-label">动作 Roguelike 研发经验</div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="experience-panel">
+                  <div class="panel-title">工作经历</div>
+                  <div class="experience-card">
+                    <div class="job-head">
+                      <div class="job-title">
+                        <div class="job-role">程序策划</div>
+                        <div class="job-company">凉屋游戏 · 深圳</div>
+                      </div>
+                      <div class="job-date">2023.10 - 至今</div>
+                    </div>
+                    <ul class="work-list">
+                      <li>负责《战魂铭人》新英雄从概念到上线的全流程，使用 Unity + C# 独立完成技能逻辑、动作表现与数值配置，已交付阿蕾希娅、薄暮、宵子、菈娜、艾德琳等多位英雄。</li>
+                      <li>多位英雄付费渗透率超出预期，玩家社群讨论度与二创传播度高，兼顾商业结果与角色话题性。</li>
+                      <li>主导引入 Codex 优化英雄开发工作流，辅助技能代码生成与配置表维护，开发周期缩短约 30%，让更多时间回到体验调试与设计迭代。</li>
+                      <li>将 AI 辅助方案推广至项目组其他英雄制作者，提升团队整体产出效率与设计一致性。</li>
+                      <li>日常负责版本内容制作、活动玩法设计与实现、玩法迭代等研发产出。</li>
+                    </ul>
+                  </div>
+                </section>
+
+                <section class="project-panel">
+                  <div class="panel-title">代表作品 · 《战魂铭人》英雄设计</div>
+                  <div class="featured-grid">
+                    <article class="feature-card">
+                      <div class="feature-head">
+                        <div class="feature-name">宵子</div>
+                        <div class="feature-badge">修罗阵营</div>
+                      </div>
+                      <div class="feature-desc">付费渗透率超出预期，玩家社群讨论度高。</div>
+                      <a class="feature-link" href="https://www.bilibili.com/video/BV1NNWCzGEtB" target="_blank" rel="noreferrer">BV1NNWCzGEtB · 4.9 万播放 ↗</a>
+                    </article>
+                    <article class="feature-card">
+                      <div class="feature-head">
+                        <div class="feature-name">阿蕾希娅</div>
+                        <div class="feature-badge">闪光骑士</div>
+                      </div>
+                      <div class="feature-desc">付费渗透率超预期，二创传播度高。</div>
+                      <a class="feature-link" href="https://www.bilibili.com/video/BV1nVoXYPEh8" target="_blank" rel="noreferrer">BV1nVoXYPEh8 · 4.6 万播放 ↗</a>
+                    </article>
+                    <article class="feature-card">
+                      <div class="feature-head">
+                        <div class="feature-name">伊雪儿 &amp; 路西莉亚</div>
+                        <div class="feature-badge">仙宫科技</div>
+                      </div>
+                      <div class="feature-desc">双英雄同步上线，具备组合卖点。</div>
+                      <a class="feature-link" href="https://www.bilibili.com/video/BV1nLzMBXEmK" target="_blank" rel="noreferrer">BV1nLzMBXEmK · 4.5 万播放 ↗</a>
+                    </article>
+                    <article class="feature-card">
+                      <div class="feature-head">
+                        <div class="feature-name">薄暮</div>
+                        <div class="feature-badge">渡鸦之镰</div>
+                      </div>
+                      <div class="feature-desc">修罗阵营核心角色，商业表现优秀。</div>
+                      <a class="feature-link" href="https://www.bilibili.com/video/BV1mVGwzvERz" target="_blank" rel="noreferrer">BV1mVGwzvERz · 4.1 万播放 ↗</a>
+                    </article>
+                    <article class="feature-card">
+                      <div class="feature-head">
+                        <div class="feature-name">多莉</div>
+                        <div class="feature-badge">那伽阵营</div>
+                      </div>
+                      <div class="feature-desc">新英雄加入，完成阵营扩展。</div>
+                      <a class="feature-link" href="https://www.bilibili.com/video/BV1rkCKBcEmy" target="_blank" rel="noreferrer">BV1rkCKBcEmy · 3.9 万播放 ↗</a>
+                    </article>
+                    <article class="feature-card">
+                      <div class="feature-head">
+                        <div class="feature-name">艾德琳</div>
+                        <div class="feature-badge">深渊魔导</div>
+                      </div>
+                      <div class="feature-desc">深渊黑魔导士定位鲜明，记忆点强。</div>
+                      <a class="feature-link" href="https://www.bilibili.com/video/BV1oUKPe7ExJ" target="_blank" rel="noreferrer">BV1oUKPe7ExJ · 3.9 万播放 ↗</a>
+                    </article>
+                    <article class="feature-card">
+                      <div class="feature-head">
+                        <div class="feature-name">菈娜</div>
+                        <div class="feature-badge">异域刺客</div>
+                      </div>
+                      <div class="feature-desc">异域舞娘主题，影刃刺客辨识度高。</div>
+                      <a class="feature-link" href="https://www.bilibili.com/video/BV18dBiY9Eya" target="_blank" rel="noreferrer">BV18dBiY9Eya · 3.3 万播放 ↗</a>
+                    </article>
+                  </div>
+                </section>
+
+                <section class="notes-panel">
+                  <div class="panel-title">其他项目</div>
+                  <ul class="notes-list">
+                    <li>Solo 参加两届 Global Game Jam，48h 内独立完成玩法设计、程序开发与原型交付。</li>
+                    <li>使用 Codex 纯 AI 开发 5 个《杀戮尖塔》Mod，持续探索 AI 驱动游戏内容生成工作流。</li>
+                    <li>组队参加全国高校游戏开发大赛，负责核心玩法设计与程序实现。</li>
+                  </ul>
+                </section>
+              </main>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const previewStage = document.getElementById("previewStage");
+  const resumePage = document.getElementById("resumePage");
+  const resumeInner = document.getElementById("resumeInner");
+  const exportButton = document.getElementById("exportPdfButton");
+
+  const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
+  function setStatus(message) {
+    exportButton.title = message;
+  }
+
+  async function fitContentToPage() {
+    let scale = 1;
+
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      root.style.setProperty("--content-scale", scale.toFixed(4));
+      await nextFrame();
+
+      const pageHeight = resumePage.clientHeight;
+      const contentHeight = resumeInner.offsetHeight;
+      const nextScale = Math.min(1, pageHeight / contentHeight);
+
+      if (Math.abs(nextScale - scale) < 0.002) {
+        break;
+      }
+
+      scale = Math.min(scale, nextScale);
+    }
+
+    root.style.setProperty("--content-scale", scale.toFixed(4));
+  }
+
+  function syncPreviewScale() {
+    const availableWidth = Math.max(320, document.querySelector(".preview-shell").clientWidth);
+    const pageWidth = resumePage.offsetWidth;
+    const scale = Math.min(1, availableWidth / pageWidth);
+
+    root.style.setProperty("--preview-scale", scale.toFixed(4));
+    previewStage.style.height = `${resumePage.offsetHeight * scale}px`;
+  }
+
+  async function syncLayout() {
+    await fitContentToPage();
+    await nextFrame();
+    syncPreviewScale();
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = Array.from(document.scripts).find((script) => script.src === src);
+
+      if (existing) {
+        if (existing.dataset.loaded === "true") {
+          resolve();
+          return;
+        }
+
+        existing.addEventListener("load", resolve, { once: true });
+        existing.addEventListener("error", () => reject(new Error(`加载失败: ${src}`)), { once: true });
+        return;
+      }
+
+      const script = document.createElement("script");
+      script.src = src;
+      script.async = true;
+      script.onload = () => {
+        script.dataset.loaded = "true";
+        resolve();
+      };
+      script.onerror = () => reject(new Error(`加载失败: ${src}`));
+      document.head.appendChild(script);
+    });
+  }
+
+  async function ensurePdfRuntime() {
+    if (!window.html2canvas) {
+      await loadScript("https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js");
+    }
+
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      await loadScript("https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js");
+    }
+  }
+
+  async function exportPdf() {
+    exportButton.disabled = true;
+    exportButton.textContent = "生成中...";
+    setStatus("正在生成 PDF...", "");
+
+    try {
+      await syncLayout();
+      await ensurePdfRuntime();
+
+      const canvas = await window.html2canvas(resumePage, {
+        backgroundColor: getComputedStyle(resumePage).backgroundColor,
+        scale: Math.max(2, window.devicePixelRatio || 1),
+        useCORS: true
+      });
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+        compress: true
+      });
+
+      const imageData = canvas.toDataURL("image/jpeg", 0.96);
+      pdf.addImage(imageData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+      pdf.save("吴少杰-程序策划-简历.pdf");
+      setStatus("PDF 已导出，版式与预览保持一致。", "success");
+    } catch (error) {
+      console.error(error);
+      setStatus("PDF 库加载失败，已回退为浏览器打印。", "warning");
+      window.print();
+    } finally {
+      exportButton.disabled = false;
+      exportButton.textContent = "导出 PDF";
+    }
+  }
+
+  let resizeTimer = null;
+
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      syncLayout();
+    }, 80);
+  });
+
+  window.addEventListener("load", async () => {
+    await syncLayout();
+  });
+
+  exportButton.addEventListener("click", exportPdf);
+</script>
+</body>
+</html>
