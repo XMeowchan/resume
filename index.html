@@ -728,7 +728,7 @@
                   <div class="featured-grid">
                     <article class="feature-card">
                       <div class="idle-preview" aria-hidden="true">
-                        <img src="https://static.wikia.nocookie.net/otherworld-legends/images/6/61/Yoiko_idle.gif/revision/latest?cb=20260130193152" alt="">
+                        <img src="assets/heroes/yoiko.gif" alt="">
                       </div>
                       <div class="feature-head">
                         <div class="feature-name">宵子</div>
@@ -739,7 +739,7 @@
                     </article>
                     <article class="feature-card">
                       <div class="idle-preview" aria-hidden="true">
-                        <img src="https://static.wikia.nocookie.net/otherworld-legends/images/d/dc/Alessia2.gif/revision/latest?cb=20250518080510" alt="">
+                        <img src="assets/heroes/alessia.gif" alt="">
                       </div>
                       <div class="feature-head">
                         <div class="feature-name">阿蕾希娅</div>
@@ -758,7 +758,7 @@
                     </article>
                     <article class="feature-card">
                       <div class="idle-preview" aria-hidden="true">
-                        <img src="https://static.wikia.nocookie.net/otherworld-legends/images/a/af/Vesper_idle.gif/revision/latest?cb=20250810200642" alt="">
+                        <img src="assets/heroes/vesper.gif" alt="">
                       </div>
                       <div class="feature-head">
                         <div class="feature-name">薄暮</div>
@@ -769,7 +769,7 @@
                     </article>
                     <article class="feature-card">
                       <div class="idle-preview" aria-hidden="true">
-                        <img src="https://static.wikia.nocookie.net/otherworld-legends/images/d/d4/Dolly_idle.gif/revision/latest?cb=20251129053808" alt="">
+                        <img src="assets/heroes/dolly.gif" alt="">
                       </div>
                       <div class="feature-head">
                         <div class="feature-name">多莉</div>
@@ -780,7 +780,7 @@
                     </article>
                     <article class="feature-card">
                       <div class="idle-preview" aria-hidden="true">
-                        <img src="https://static.wikia.nocookie.net/otherworld-legends/images/a/a0/Adelvyn_idle.gif/revision/latest?cb=20250303085340" alt="">
+                        <img src="assets/heroes/adelvyn.gif" alt="">
                       </div>
                       <div class="feature-head">
                         <div class="feature-name">艾德琳</div>
@@ -791,7 +791,7 @@
                     </article>
                     <article class="feature-card">
                       <div class="idle-preview" aria-hidden="true">
-                        <img src="https://static.wikia.nocookie.net/otherworld-legends/images/1/16/Lana.gif/revision/latest?cb=20241227092055" alt="">
+                        <img src="assets/heroes/lana.gif" alt="">
                       </div>
                       <div class="feature-head">
                         <div class="feature-name">菈娜</div>
@@ -906,6 +906,29 @@
     }
   }
 
+  function addPdfLinks(pdf) {
+    const pageRect = resumePage.getBoundingClientRect();
+    const pageWidthMm = 210;
+    const pageHeightMm = 297;
+
+    resumePage.querySelectorAll("a[href]").forEach((link) => {
+      const url = link.href;
+
+      Array.from(link.getClientRects()).forEach((rect) => {
+        if (!rect.width || !rect.height) {
+          return;
+        }
+
+        const x = ((rect.left - pageRect.left) / pageRect.width) * pageWidthMm;
+        const y = ((rect.top - pageRect.top) / pageRect.height) * pageHeightMm;
+        const width = (rect.width / pageRect.width) * pageWidthMm;
+        const height = (rect.height / pageRect.height) * pageHeightMm;
+
+        pdf.link(x, y, width, height, { url });
+      });
+    });
+  }
+
   async function exportPdf() {
     exportButton.disabled = true;
     exportButton.textContent = "生成中...";
@@ -932,6 +955,7 @@
 
       const imageData = canvas.toDataURL("image/jpeg", 0.96);
       pdf.addImage(imageData, "JPEG", 0, 0, 210, 297, undefined, "FAST");
+      addPdfLinks(pdf);
       pdf.save("吴少杰-程序策划-简历.pdf");
       setStatus("PDF 已导出，版式与预览保持一致。", "success");
     } catch (error) {
