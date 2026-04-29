@@ -840,7 +840,7 @@
       root.style.setProperty("--content-scale", scale.toFixed(4));
       await nextFrame();
 
-      const pageHeight = resumePage.clientHeight;
+      const pageHeight = resumePage.clientHeight - 8;
       const contentHeight = resumeInner.scrollHeight;
       const nextScale = Math.min(1, pageHeight / contentHeight);
 
