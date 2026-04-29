@@ -10,9 +10,9 @@
     --page-height: 297mm;
     --preview-scale: 1;
     --content-scale: 1;
-    --ink: #1f2430;
-    --muted: #556070;
-    --accent: #1858f0;
+    --ink: #111827;
+    --muted: #334155;
+    --accent: #155eef;
     --accent-soft: rgba(24, 88, 240, 0.1);
     --line: #dde4ef;
     --paper: #fcfcfb;
@@ -281,6 +281,13 @@
     color: var(--muted);
   }
 
+  .summary-text strong,
+  .work-list strong,
+  .notes-list strong {
+    color: var(--ink);
+    font-weight: 800;
+  }
+
   .impact-strip {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -421,6 +428,10 @@
     display: grid;
     gap: 2.4mm;
     list-style: none;
+  }
+
+  .notes-panel {
+    margin-top: auto;
   }
 
   .notes-list li {
@@ -620,7 +631,7 @@
                   <div class="panel-title">个人总结</div>
                   <div class="summary-card">
                     <div class="summary-text">
-                      哈尔滨工业大学软件工程出身，具备从玩法设计到代码实现的完整闭环能力。2.5 年程序策划经验，专注动作 RogueLike 品类，擅长将 AI 工具深度融入游戏开发流程，以技术手段加速设计验证、提升策划产出效率。
+                      哈尔滨工业大学软件工程出身，具备<strong>从玩法设计到代码实现</strong>的完整闭环能力。<strong>2.5 年程序策划经验</strong>，专注<strong>动作 RogueLike</strong>品类，擅长将 <strong>AI 工具</strong>深度融入游戏开发流程，以技术手段<strong>加速设计验证</strong>、提升策划产出效率。
                     </div>
                     <div class="impact-strip">
                       <div class="impact-item">
@@ -650,10 +661,10 @@
                       <div class="job-date">2023.10 - 至今</div>
                     </div>
                     <ul class="work-list">
-                      <li>负责《战魂铭人》新英雄从概念到上线的全流程，使用 Unity + C# 独立完成技能逻辑、动作表现与数值配置，已交付阿蕾希娅、薄暮、宵子、菈娜、艾德琳等多位英雄。</li>
-                      <li>多位英雄付费渗透率超出预期，玩家社群讨论度与二创传播度高，兼顾商业结果与角色话题性。</li>
-                      <li>主导引入 Codex 优化英雄开发工作流，辅助技能代码生成与配置表维护，开发周期缩短约 30%，让更多时间回到体验调试与设计迭代。</li>
-                      <li>将 AI 辅助方案推广至项目组其他英雄制作者，提升团队整体产出效率与设计一致性。</li>
+                      <li>负责《战魂铭人》新英雄<strong>从概念到上线</strong>的全流程，使用 <strong>Unity + C#</strong> 独立完成技能逻辑、动作表现与数值配置，已交付阿蕾希娅、薄暮、宵子、菈娜、艾德琳等多位英雄。</li>
+                      <li>多位英雄<strong>付费渗透率超出预期</strong>，玩家社群讨论度与二创传播度高，兼顾商业结果与角色话题性。</li>
+                      <li>主导引入 <strong>Codex</strong> 优化英雄开发工作流，辅助技能代码生成与配置表维护，<strong>开发周期缩短约 30%</strong>，让更多时间回到体验调试与设计迭代。</li>
+                      <li>将 <strong>AI 辅助方案</strong>推广至项目组其他英雄制作者，提升团队整体产出效率与设计一致性。</li>
                       <li>日常负责版本内容制作、活动玩法设计与实现、玩法迭代等研发产出。</li>
                     </ul>
                   </div>
@@ -724,8 +735,8 @@
                 <section class="notes-panel">
                   <div class="panel-title">其他项目</div>
                   <ul class="notes-list">
-                    <li>Solo 参加两届 Global Game Jam，48h 内独立完成玩法设计、程序开发与原型交付。</li>
-                    <li>使用 Codex 纯 AI 开发 5 个《杀戮尖塔》Mod，持续探索 AI 驱动游戏内容生成工作流。</li>
+                    <li>Solo 参加两届 <strong>Global Game Jam</strong>，48h 内独立完成玩法设计、程序开发与原型交付。</li>
+                    <li>使用 <strong>Codex 纯 AI 开发</strong> 5 个《杀戮尖塔》Mod，持续探索 AI 驱动游戏内容生成工作流。</li>
                     <li>组队参加全国高校游戏开发大赛，负责核心玩法设计与程序实现。</li>
                   </ul>
                 </section>
